@@ -7,14 +7,14 @@ from linebot.models import (
     RichMenuArea,
     RichMenuSize,
     RichMenuBounds,
-    URIAction
+    MessageAction,
 )
 from linebot.models.actions import RichMenuSwitchAction
 from linebot.models.rich_menu import RichMenuAlias
 
 import rich_menu_object
 
-line_bot_api = LineBotApi('LINE_CHANNEL_TOKEN') # 上書きする
+line_bot_api = LineBotApi('zxPozaYSp7Rv03isLXbtd8H4z5Nfq79SCRVVuCfrhhhqB1GTzfEtERa8pihhqLgrRMU1thPnzLMeuYJ1NrrzUBSO9X3uGPuvSRvsiRPbIfw6c462fy08iDk2HyNedpRw1CaBqgY2Rrz3+Oe3TCFEHgdB04t89/1O/w1cDnyilFU=') # 上書きする
 
 def reset():
     # 全 alias を選択する
@@ -30,11 +30,8 @@ def reset():
 
 # アクションの登録
 def create_action(action):
-    if action['type'] == 'uri':
-        return URIAction(type=action['type'], uri=action.get('uri'))
-    else:
-        return RichMenuSwitchAction(type=action['type'], rich_menu_alias_id=action.get('richMenuAliasId'), data=action.get('data'))
-
+    return MessageAction(type=action['type'], label=action['label'], text=action["text"])
+    
 # rich_menu_object でリッチメニューの構成を指定する
 # リッチメニューオブジェクト: https://developers.line.biz/ja/reference/messaging-api/#rich-menu-object
 def create_rich_menus(rich_menu_object):
@@ -75,17 +72,11 @@ def main():
     # 2. リッチメニューA（richmenu-a）を作成する
     rich_menu_a_id = create_rich_menus(rich_menu_object.rich_menu_object_a())
     # 3. リッチメニューAに画像をアップロードする
-    set_rich_menu_image(rich_menu_a_id, '../public/richmenu-a.png')
-    # 4. リッチメニューB（richmenu-b）を作成する
-    rich_menu_b_id = create_rich_menus(rich_menu_object.rich_menu_object_b())
-    # 5. リッチメニューBに画像をアップロードする
-    set_rich_menu_image(rich_menu_b_id, '../public/richmenu-b.png')
+    set_rich_menu_image(rich_menu_a_id, '../public/shako.png')
     # 6. リッチメニューAをデフォルトのリッチメニューにする
     set_default_rich_menu(rich_menu_a_id)
     # 7. リッチメニューエイリアスAを作成する
     set_rich_menus_alias(rich_menu_a_id, 'richmenu-alias-a')
-    # 8. リッチメニューエイリアスBを作成する
-    set_rich_menus_alias(rich_menu_b_id, 'richmenu-alias-b')
     print('success')
 
 reset()
